@@ -1,4 +1,4 @@
-# ijob_clone_app
+# Freelancify
 
 A new Flutter project.
 
