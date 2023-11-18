@@ -6,4 +6,5 @@ class MyColors {
   static Color emeraldGreen = const Color(0xFF268D82);
   static Color darkBlue = const Color(0xFF22333B);
   static Color red = const Color(0xFFB81111);
+  static Color brightGreen = const Color(0xFF17B99D);
 }

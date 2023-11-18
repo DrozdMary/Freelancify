@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ijob_clone_app/Constants/botton_nav_bar.dart';
 import 'package:ijob_clone_app/Constants/colors.dart';
 import 'package:ijob_clone_app/Constants/text_styles.dart';
 import 'package:ijob_clone_app/ForgetPassword/forget_password_screen.dart';
@@ -14,7 +15,6 @@ import '../Constants/custom_text_field.dart';
 import '../Services/global_variables.dart';
 
 class Login extends StatefulWidget {
-  //Класс StatefulWidget представляет виджет, состояние которого может изменяться во время выполнения (это отличает его от StatelessWidget).
 
   @override
   State<Login> createState() => _LoginState();
@@ -33,9 +33,6 @@ class _LoginState extends State<Login> {
 
   final FocusNode _passFocusNode = FocusNode();
 
-  //объявляется переменная _passFocusNode с типом FocusNode.
-  //FocusNode в Flutter представляет собой узел фокуса, который используется для управления фокусом (вводом) в пользовательском интерфейсе.
-  //Это позволяет установить или убрать фокус с виджета, такого как текстовое поле
 
   bool _isLoading = false;
 
@@ -90,6 +87,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       //Scaffold - это структурный виджет, представляющий основную структуру экрана, включая AppBar, BottomNavigationBar и т. д.
       backgroundColor: MyColors.white,
       body: Stack(
@@ -106,15 +104,17 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 20,
                 ),
-
 //IMAGE
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Image.asset('assets/images/img_1.png'),
+                  child: Image.asset(
+                      'assets/images/img_1.png'
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
                 ),
+
                 Form(
                   key: _loginFormKey,
                   child: Column(
@@ -183,7 +183,7 @@ class _LoginState extends State<Login> {
                         height: 5,
                       ),
 
-//FORGET PASSWORD
+//BUTTON FORGET PASSWORD
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: TextButton(
@@ -197,7 +197,6 @@ class _LoginState extends State<Login> {
                       const SizedBox(
                         height: 5,
                       ),
-
 //BUTTON LOGIN
                       MaterialButton(
                         onPressed: _submitFormOnLogin,
@@ -217,23 +216,30 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
+
                       const SizedBox(
                         height: 20,
                       ),
 
-//SIGNUP
+//BUTTON SIGNUP
                       Center(
                         child: RichText(
                           text: TextSpan(
                             children: [
-                              TextSpan(text: 'Нет аккаунта?', style: TextStyles.normText.copyWith(fontSize: 18)),
-                              const TextSpan(text: '  '),
                               TextSpan(
+                                  text: 'Нет аккаунта?', style: TextStyles.normText.copyWith(fontSize: 18)
+                              ),
+                              const TextSpan(
+                                  text: '  '
+                              ),
+                              TextSpan(
+
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () => Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp())),
                                   //..onTap: используется для вызова функции, когда происходит касание (нажатие)
                                   text: 'Регистрация',
-                                  style: TextStyles.boldText),
+                                  style: TextStyles.boldText
+                              ),
                             ],
                           ),
                         ),

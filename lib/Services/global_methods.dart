@@ -27,9 +27,7 @@ class GlobalMethod {
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Вознила ошибка',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyles.boldText.copyWith(fontSize: 20),
                   ),
                 ),
               ],
