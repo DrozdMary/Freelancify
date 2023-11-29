@@ -4,15 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ijob_clone_app/Constants/botton_nav_bar.dart';
 import 'package:ijob_clone_app/Constants/colors.dart';
 import 'package:ijob_clone_app/Constants/text_styles.dart';
 import 'package:ijob_clone_app/ForgetPassword/forget_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ijob_clone_app/Services/global_methods.dart';
 import 'package:ijob_clone_app/SignupPage/signup_screen.dart';
+import '../Constants/show_dialog.dart';
 import '../Constants/custom_text_field.dart';
-import '../Services/global_variables.dart';
 
 class Login extends StatefulWidget {
 
@@ -86,174 +84,177 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Padding(
+      padding: const EdgeInsets.all(0),
+      child: Scaffold(
 
-      //Scaffold - это структурный виджет, представляющий основную структуру экрана, включая AppBar, BottomNavigationBar и т. д.
-      backgroundColor: MyColors.white,
-      body: Stack(
-        //Stack - это виджет, позволяющий располагать дочерние виджеты один поверх другого.
-        children: [
-          const SizedBox(),
-          // SizedBox() - это пустой контейнер без размеров, что означает, что он ничего не отображает.
-          Padding(
-            //Padding - это виджет, который добавляет отступы к своему потомку.
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: ListView(
-              //ListView - это виджет, который позволяет организовать прокручиваемый список.
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-//IMAGE
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Image.asset(
-                      'assets/images/img_1.png'
+        //Scaffold - это структурный виджет, представляющий основную структуру экрана, включая AppBar, BottomNavigationBar и т. д.
+        backgroundColor: MyColors.white,
+        body: Stack(
+          //Stack - это виджет, позволяющий располагать дочерние виджеты один поверх другого.
+          children: [
+            const SizedBox(),
+            // SizedBox() - это пустой контейнер без размеров, что означает, что он ничего не отображает.
+            Padding(
+              //Padding - это виджет, который добавляет отступы к своему потомку.
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: ListView(
+                //ListView - это виджет, который позволяет организовать прокручиваемый список.
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
+//IMAGE
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Image.asset(
+                        'assets/images/img_1.png'
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
 
-                Form(
-                  key: _loginFormKey,
-                  child: Column(
-                    children: [
+                  Form(
+                    key: _loginFormKey,
+                    child: Column(
+                      children: [
 //EMAIL
-                      CustomTextField(
-                        validator: (value) {
-                          if (value!.isEmpty || !value.contains('@') || !value.contains('.')) //валидация мйл
-                          {
-                            return 'Неверный формат почты';
-                          } else {
-                            return null;
-                          }
-                        },
-                        onEditingComplete: () => FocusScope.of(context).requestFocus(_passFocusNode),
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailTextController,
-                        hintText: "Почта",
-                        hintStyle: TextStyles.normText.copyWith(fontSize: 20),
-                        style: TextStyles.normText.copyWith(fontSize: 20),
-                      ),
+                        CustomTextField(
+                          validator: (value) {
+                            if (value!.isEmpty || !value.contains('@') || !value.contains('.')) //валидация мйл
+                            {
+                              return 'Неверный формат почты';
+                            } else {
+                              return null;
+                            }
+                          },
+                          onEditingComplete: () => FocusScope.of(context).requestFocus(_passFocusNode),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailTextController,
+                          hintText: "Почта",
+                          hintStyle: TextStyles.normText.copyWith(fontSize: 20),
+                          style: TextStyles.normText.copyWith(fontSize: 20),
+                        ),
 
-                      const SizedBox(
-                        height: 15,
-                      ),
+                        const SizedBox(
+                          height: 15,
+                        ),
 
 //PASSWORD
-                      CustomTextField(
-                        validator: (value) {
-                          if (value!.isEmpty || value.length < 7) //валидация пароля
-                          {
-                            return 'Неверный формат пароля';
-                          } else {
-                            return null;
-                          }
-                        },
-                        keyboardType: TextInputType.visiblePassword,
-                        controller: _passTextController,
-                        focusNode: _passFocusNode,
-                        suffixIcon: GestureDetector(
-                          //создает иконку в конце текстового поля, которая реагирует на tap
-                          onTap: ()
-                              //обработчик события нажатия на иконку
-                              {
-                            setState(() {
-                              //обновляет состояние виджета (при нажатии меняется с true на false и наоборот)
-                              _obscureText = !_obscureText;
-                            });
+                        CustomTextField(
+                          validator: (value) {
+                            if (value!.isEmpty || value.length < 7) //валидация пароля
+                            {
+                              return 'Неверный формат пароля';
+                            } else {
+                              return null;
+                            }
                           },
-                          child: Icon(
-                            //создает виджет иконки с заданным значком
-                            _obscureText
-                                ? Icons.visibility_outlined
-                                //true - "глаз"
-                                : Icons.visibility_off_outlined,
-                            //false-"перечеркнутый глаз"
-                            color: MyColors.darkBlue,
+                          keyboardType: TextInputType.visiblePassword,
+                          controller: _passTextController,
+                          focusNode: _passFocusNode,
+                          suffixIcon: GestureDetector(
+                            //создает иконку в конце текстового поля, которая реагирует на tap
+                            onTap: ()
+                                //обработчик события нажатия на иконку
+                                {
+                              setState(() {
+                                //обновляет состояние виджета (при нажатии меняется с true на false и наоборот)
+                                _obscureText = !_obscureText;
+                              });
+                            },
+                            child: Icon(
+                              //создает виджет иконки с заданным значком
+                              _obscureText
+                                  ? Icons.visibility_outlined
+                                  //true - "глаз"
+                                  : Icons.visibility_off_outlined,
+                              //false-"перечеркнутый глаз"
+                              color: MyColors.darkBlue,
+                            ),
                           ),
+                          hintText: "Пароль",
+                          hintStyle: TextStyles.normText.copyWith(fontSize: 20),
+                          style: TextStyles.normText.copyWith(fontSize: 20),
                         ),
-                        hintText: "Пароль",
-                        hintStyle: TextStyles.normText.copyWith(fontSize: 20),
-                        style: TextStyles.normText.copyWith(fontSize: 20),
-                      ),
 
-                      const SizedBox(
-                        height: 5,
-                      ),
+                        const SizedBox(
+                          height: 5,
+                        ),
 
 //BUTTON FORGET PASSWORD
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword()));
-                          },
-                          child: Text('Забыли пароль?', style: TextStyles.boldText),
-                        ),
-                      ),
-
-                      const SizedBox(
-                        height: 5,
-                      ),
-//BUTTON LOGIN
-                      MaterialButton(
-                        onPressed: _submitFormOnLogin,
-                        //асинхронный метод, который вызывается при попытке входа в систему
-                        color: MyColors.emeraldGreen,
-                        elevation: 10,
-                        //устанавливает высоту тени кнопки
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)
-                            //устанавливает форму кнопки
-                            ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Row(
-                            // Row позволяет разместить дочерние виджеты горизонтально внутри себя
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [Text('Войти', style: TextStyles.bigButtonText)],
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword()));
+                            },
+                            child: Text('Забыли пароль?', style: TextStyles.boldText),
                           ),
                         ),
-                      ),
 
-                      const SizedBox(
-                        height: 20,
-                      ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+//BUTTON LOGIN
+                        MaterialButton(
+                          onPressed: _submitFormOnLogin,
+                          //асинхронный метод, который вызывается при попытке входа в систему
+                          color: MyColors.emeraldGreen,
+                          elevation: 10,
+                          //устанавливает высоту тени кнопки
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)
+                              //устанавливает форму кнопки
+                              ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Row(
+                              // Row позволяет разместить дочерние виджеты горизонтально внутри себя
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [Text('Войти', style: TextStyles.bigButtonText)],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(
+                          height: 20,
+                        ),
 
 //BUTTON SIGNUP
-                      Center(
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                  text: 'Нет аккаунта?', style: TextStyles.normText.copyWith(fontSize: 18)
-                              ),
-                              const TextSpan(
-                                  text: '  '
-                              ),
-                              TextSpan(
+                        Center(
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                    text: 'Нет аккаунта?', style: TextStyles.normText.copyWith(fontSize: 18)
+                                ),
+                                const TextSpan(
+                                    text: '  '
+                                ),
+                                TextSpan(
 
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp())),
-                                  //..onTap: используется для вызова функции, когда происходит касание (нажатие)
-                                  text: 'Регистрация',
-                                  style: TextStyles.boldText
-                              ),
-                            ],
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () => Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp())),
+                                    //..onTap: используется для вызова функции, когда происходит касание (нажатие)
+                                    text: 'Регистрация',
+                                    style: TextStyles.boldText
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

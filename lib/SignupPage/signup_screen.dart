@@ -8,14 +8,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ijob_clone_app/Constants/botton_nav_bar.dart';
 import 'package:ijob_clone_app/Constants/custom_text_field.dart';
 import 'package:ijob_clone_app/Constants/text_styles.dart';
-import 'package:ijob_clone_app/Services/global_methods.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../Constants/colors.dart';
+import '../Constants/show_dialog.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -244,7 +243,6 @@ class _SignUpState extends State<SignUp> {
     Size size = MediaQuery.of(context).size;
     //Получение размеров экрана в size с помощью MediaQuery, что позволяет адаптировать интерфейс под разные устройства.
     return Scaffold(
-
       backgroundColor: MyColors.white,
       body: Stack(
         //виджет Stack позволяет размещать виджеты поверх друг друга.
@@ -394,7 +392,6 @@ class _SignUpState extends State<SignUp> {
                           }
                         },
                         focusNode: _phoneNumberFocusNode,
-
                         onEditingComplete: () => FocusScope.of(context).requestFocus(_positionCPFocusNode),
                         keyboardType: TextInputType.text,
                         controller: _phoneNumberController,

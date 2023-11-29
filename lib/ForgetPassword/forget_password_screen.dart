@@ -5,8 +5,8 @@ import 'package:ijob_clone_app/Constants/custom_text_field.dart';
 import 'package:ijob_clone_app/loginPage/login_screen.dart';
 
 import '../Constants/colors.dart';
+import '../Constants/show_dialog.dart';
 import '../Constants/text_styles.dart';
-import '../Services/global_methods.dart';
 
 class ForgetPassword extends StatefulWidget {
   @override

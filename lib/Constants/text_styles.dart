@@ -15,8 +15,17 @@ class TextStyles {
       fontSize: 18,
       fontWeight: FontWeight.w600,
       fontFamily: 'montserrat');
+
   static TextStyle get normalGreenText => TextStyle(
         color: MyColors.emeraldGreen,
+        fontSize: 18,
+      );
+  static TextStyle get normalWhiteText => TextStyle(
+        color: MyColors.white,
+        fontSize: 18,
+      );
+  static TextStyle get editText => TextStyle(
+        color: Colors.deepOrangeAccent,
         fontSize: 18,
       );
 }

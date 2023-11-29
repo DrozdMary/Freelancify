@@ -17,6 +17,8 @@ class _AllWorkerScreenState extends State<AllWorkerScreen> {
       bottomNavigationBar: BottomNavigator(selectedIndex: 1,),
 
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+
         title: Text('Search screen'),
         centerTitle: true,
         backgroundColor: MyColors.brightGreen,
