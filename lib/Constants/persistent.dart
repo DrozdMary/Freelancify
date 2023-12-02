@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 class Persistent {
   static List<String> jobCategoryList = [
