@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ijob_clone_app/Constants/show_dialog.dart';
 import 'package:ijob_clone_app/Constants/text_styles.dart';
-import 'package:ijob_clone_app/Persistent/persistent.dart';
+import 'package:ijob_clone_app/Constants/persistent.dart';
 import 'package:uuid/uuid.dart';
 import '../Constants/botton_nav_bar.dart';
 import '../Constants/colors.dart';
@@ -53,6 +53,17 @@ class _UploadJobNowState extends State<UploadJobNow> {
       child: Text(
         label,
         style: TextStyles.normText.copyWith(fontSize: 20),
+      ),
+    );
+  }
+  Widget _textDesc({required String label}) {
+    return Padding(
+      padding: EdgeInsets.only(left: 10,  right: 10, bottom: 5),
+      child: Text(
+        label,
+        textAlign: TextAlign.center,
+        style: TextStyles.normText10,
+
       ),
     );
   }
@@ -191,7 +202,7 @@ class _UploadJobNowState extends State<UploadJobNow> {
           setState(() {
             _isLoading = false;
           });
-          GlobalMethod.showErrorDialog(error: error.toString(), ctx: context);
+          GlobalMethod.showErrorDialog(error: 'Не удалось опубликовать вакансию. Попробуйте позже', ctx: context);
         }
       } finally {
         setState(() {
@@ -201,6 +212,25 @@ class _UploadJobNowState extends State<UploadJobNow> {
     } else {
       print('Валидация не пройдена');
     }
+  }
+
+  void getMyData() async {
+    final DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+
+    setState(
+      () {
+        name = userDoc.get('name');
+        userImage = userDoc.get('userImage');
+        location = userDoc.get('location');
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMyData();
   }
 
   @override
@@ -254,7 +284,7 @@ class _UploadJobNowState extends State<UploadJobNow> {
                               },
                               maxLength: 100,
                             ),
-                            _textTitles(label: 'Название вакансии:'),
+                            _textTitles(label: 'Название должности:'),
                             _textFormFields(
                               valueKey: 'JobTitle',
                               controller: _jobTitleController,
@@ -263,6 +293,7 @@ class _UploadJobNowState extends State<UploadJobNow> {
                               maxLength: 100,
                             ),
                             _textTitles(label: 'Описание работы:'),
+                            _textDesc(label: "Расскажите о компании, об условиях, напиример, о рабочем месте и графике работы, чем будущему сотруднику предстоит заниматься"),
                             _textFormFields(
                               valueKey: 'JobDescription',
                               controller: _jobDescriptionController,
@@ -271,6 +302,8 @@ class _UploadJobNowState extends State<UploadJobNow> {
                               maxLength: 600,
                             ),
                             _textTitles(label: 'Требования к кондидату:'),
+                            _textDesc(label: '''Напишите требования к кандидату согласно примеру: "Ответственнось; Трудолюбие; Английский язык B1 и выше."'''),
+
                             _textFormFields(
                               valueKey: 'JobRequirements',
                               controller: _jobRequirementsController,
@@ -279,6 +312,7 @@ class _UploadJobNowState extends State<UploadJobNow> {
                               maxLength: 600,
                             ),
                             _textTitles(label: 'Срок актуальности вакансии:'),
+                            _textDesc(label: '    Напишите крайней строк для приступания кондидата к работе'),
                             _textFormFields(
                               valueKey: 'Deadline',
                               controller: _deadlineDateController,

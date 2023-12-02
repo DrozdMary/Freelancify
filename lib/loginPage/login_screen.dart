@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,7 +12,6 @@ import '../Constants/show_dialog.dart';
 import '../Constants/custom_text_field.dart';
 
 class Login extends StatefulWidget {
-
   @override
   State<Login> createState() => _LoginState();
 //метод createState() переопределен для возвращения экземпляра _LoginState, который будет управлять состоянием виджета Login.
@@ -30,7 +28,6 @@ class _LoginState extends State<Login> {
   // для пароля
 
   final FocusNode _passFocusNode = FocusNode();
-
 
   bool _isLoading = false;
 
@@ -73,7 +70,7 @@ class _LoginState extends State<Login> {
           _isLoading = false;
           // индикатор загрузки будет скрыт, так как произошла ошибка
         });
-        GlobalMethod.showErrorDialog(error: error.toString(), ctx: context);
+        GlobalMethod.showErrorDialog(error: 'Ошибка входа. Пожалуйста, проверьте правильность введенных логина и пароля.', ctx: context);
         print('Вызванная ошибка: $error');
       }
     }
@@ -87,7 +84,6 @@ class _LoginState extends State<Login> {
     return Padding(
       padding: const EdgeInsets.all(0),
       child: Scaffold(
-
         //Scaffold - это структурный виджет, представляющий основную структуру экрана, включая AppBar, BottomNavigationBar и т. д.
         backgroundColor: MyColors.white,
         body: Stack(
@@ -107,9 +103,7 @@ class _LoginState extends State<Login> {
 //IMAGE
                   Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Image.asset(
-                        'assets/images/img_1.png'
-                    ),
+                    child: Image.asset('assets/images/img_1.png'),
                   ),
                   const SizedBox(
                     height: 30,
@@ -226,20 +220,14 @@ class _LoginState extends State<Login> {
                           child: RichText(
                             text: TextSpan(
                               children: [
+                                TextSpan(text: 'Нет аккаунта?', style: TextStyles.normText.copyWith(fontSize: 18)),
+                                const TextSpan(text: '  '),
                                 TextSpan(
-                                    text: 'Нет аккаунта?', style: TextStyles.normText.copyWith(fontSize: 18)
-                                ),
-                                const TextSpan(
-                                    text: '  '
-                                ),
-                                TextSpan(
-
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () => Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp())),
                                     //..onTap: используется для вызова функции, когда происходит касание (нажатие)
                                     text: 'Регистрация',
-                                    style: TextStyles.boldText
-                                ),
+                                    style: TextStyles.boldText),
                               ],
                             ),
                           ),

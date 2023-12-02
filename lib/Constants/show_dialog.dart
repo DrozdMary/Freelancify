@@ -34,9 +34,13 @@ class GlobalMethod {
                 ),
               ],
             ),
-            content: Text(error,
-                //интерполяция строк (подстановка)
-                style: TextStyles.normText.copyWith(fontSize: 20)),
+            content: Text(
+              error,
+              //интерполяция строк (подстановка)
+              style: TextStyles.normText.copyWith(fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
+
             actions: [
               TextButton(
                 onPressed: () {
@@ -141,5 +145,4 @@ class GlobalMethod {
           );
         });
   }
-
 }

@@ -230,7 +230,7 @@ class _SignUpState extends State<SignUp> {
         setState(() {
           _isLoading = false;
         });
-        GlobalMethod.showErrorDialog(error: error.toString(), ctx: context);
+        GlobalMethod.showErrorDialog(error: 'Ошибка регистрации. Невозможно установить подключение к серверу. Пожалуйста, проверьте свое интернет-соединение и повторите попытку.', ctx: context);
       }
     }
     setState(() {
