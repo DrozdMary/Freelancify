@@ -20,6 +20,8 @@ class TextStyles {
 
   static TextStyle get boldText => TextStyle(color: MyColors.darkBlue, fontSize: 18, fontWeight: FontWeight.w600, fontFamily: 'montserrat');
 
+  static TextStyle get boldText15 => TextStyle(color: MyColors.darkBlue, fontSize: 15, fontWeight: FontWeight.w600, fontFamily: 'montserrat');
+
 
   static TextStyle get boldText22 => TextStyle(color: MyColors.darkBlue, fontSize: 22, fontWeight: FontWeight.w600, fontFamily: 'montserrat');
 
@@ -63,6 +65,11 @@ class TextStyles {
   static TextStyle get normalWhiteText15 => TextStyle(
         color: MyColors.white,
         fontSize: 15,
+      );
+
+  static TextStyle get normalWhiteText10 => TextStyle(
+        color: MyColors.white,
+        fontSize: 10,
       );
 
   static TextStyle get bigButtonText => TextStyle(

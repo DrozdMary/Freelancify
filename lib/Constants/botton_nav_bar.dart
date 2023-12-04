@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:ijob_clone_app/Constants/colors.dart';
@@ -75,10 +76,15 @@ class BottomNavigator extends StatelessWidget {
           ),
         );}
         if (index == 3) {
+          final FirebaseAuth _auth=FirebaseAuth.instance;
+          final User? user=_auth.currentUser;
+          final String uid=user!.uid;
         Navigator.push(
           context,
           PageRouteBuilder(
-            pageBuilder: (_, __, ___) => ProfileScreen(),
+            pageBuilder: (_, __, ___) => ProfileScreen(
+              userId: uid,
+            ),
             transitionDuration: Duration(milliseconds: 100),
             transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
           ),

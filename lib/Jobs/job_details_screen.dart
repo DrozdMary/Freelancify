@@ -1,12 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ijob_clone_app/Constants/comments_widget.dart';
+import 'package:ijob_clone_app/Constants/global_variables.dart';
 import 'package:ijob_clone_app/Constants/show_dialog.dart';
 import 'package:ijob_clone_app/Jobs/jobs_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:uuid/uuid.dart';
 
 import '../Constants/colors.dart';
+import '../Constants/custom_text_field.dart';
+import '../Constants/divider_widget.dart';
 import '../Constants/text_styles.dart';
 
 class JobDetailsScreen extends StatefulWidget {
@@ -44,6 +50,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   String? emailCompany = '';
   int applicants = 0;
   bool isDeadlineAvailable = false;
+
+  bool showComment = false;
 
   void getJobData() async {
     final DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(widget.uploadedBy).get();
@@ -84,23 +92,6 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     // TODO: implement initState
     super.initState();
     getJobData();
-  }
-
-  Widget dividerWidget() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 10,
-        ),
-        Divider(
-          thickness: 3,
-          color: MyColors.lightGreen,
-        ),
-        SizedBox(
-          height: 10,
-        )
-      ],
-    );
   }
 
   applyForJob() {
@@ -163,6 +154,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         child: Text(
                           jobTitle == null ? '' : jobTitle!,
                           maxLines: 5,
+                          textAlign:TextAlign.center,
                           style: TextStyles.boldText22,
                         ),
                       ),
@@ -172,22 +164,21 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 3,
-                                color: MyColors.brightGreen,
-                              ),
-                              shape: BoxShape.rectangle,
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  userImageUrl == null
-                                      ? ' https://png.pngtree.com/png-vector/20190225/ourlarge/pngtree-vector-avatar-icon-png-image_702369.jpg'
-                                      : userImageUrl!,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 7),
+                            child: Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    userImageUrl == null
+                                        ? ' https://png.pngtree.com/png-vector/20190225/ourlarge/pngtree-vector-avatar-icon-png-image_702369.jpg'
+                                        : userImageUrl!,
+                                  ),
+                                  fit: BoxFit.fill,
                                 ),
-                                fit: BoxFit.fill,
                               ),
                             ),
                           ),
@@ -212,7 +203,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           ),
                         ],
                       ),
-                      dividerWidget(),
+                      DividerWidget(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -230,7 +221,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           ),
                         ],
                       ),
-                      dividerWidget(),
+                      DividerWidget(),
                       Text(
                         'Описание работы',
                         style: TextStyles.boldText,
@@ -243,7 +234,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyles.normText,
                       ),
-                      dividerWidget(),
+                      DividerWidget(),
                       Text(
                         'Требования',
                         style: TextStyles.boldText,
@@ -438,7 +429,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           ),
                         ),
                       ),
-                      dividerWidget(),
+                      DividerWidget(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -468,7 +459,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           ),
                         ],
                       ),
-                      dividerWidget(),
+                      DividerWidget(),
                     ],
                   ),
                 ),
@@ -486,85 +477,109 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Center(child: Text('Комментарии', style: TextStyles.boldText)),
                       AnimatedSwitcher(
                         duration: Duration(milliseconds: 500),
                         child: _isCommenting
-                            ? Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            ? Column(
                                 children: [
-                                  Flexible(
-                                    flex: 3,
-                                    child: TextField(
-                                      controller: _commentController,
-                                      style: TextStyles.normText,
-                                      maxLength: 300,
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: CustomTextField(
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'Вы не можете опубликовать пустой комментарий';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      defaultMaxLime: 3,
+                                      // maxLength: 300,
                                       keyboardType: TextInputType.text,
-                                      maxLines: 7,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(16.0),
-                                        ),
-                                        filled: true,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: MyColors.lightGreen, width: 0),
-                                          borderRadius: BorderRadius.circular(16.0),
-                                        ),
-                                        fillColor: MyColors.lightGreen,
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: MyColors.emeraldGreen, width: 2),
-                                          borderRadius: BorderRadius.circular(16.0),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: MyColors.red, width: 2),
-                                          borderRadius: BorderRadius.circular(16.0),
-                                        ),
-                                      ),
+                                      controller: _commentController,
+                                      hintText: "Оставьте свой отзыв о компании или о нанимателе",
+                                      hintStyle: TextStyles.normalGreenText14,
+                                      style: TextStyles.normText,
                                     ),
                                   ),
-                                  Flexible(
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 8),
-                                          child: MaterialButton(
-                                            minWidth: 160,
-                                            onPressed: () {},
-                                            color: MyColors.emeraldGreen,
-                                            elevation: 0,
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                            child: Padding(
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      MaterialButton(
+                                        onPressed: () async {
+                                          if (_commentController.text.length < 1) {
+                                            GlobalMethod.showErrorDialog(
+                                              error: 'Комментарий не может быть пустым',
+                                              ctx: context,
+                                            );
+                                          } else {
+                                            final _generatedId = const Uuid().v4();
+                                            await FirebaseFirestore.instance.collection('Jobs').doc(widget.jobID).update({
+                                              'jobComments': FieldValue.arrayUnion([
+                                                {
+                                                  'userId': FirebaseAuth.instance.currentUser!.uid,
+                                                  'commentId': _generatedId,
+                                                  'name': name,
+                                                  'userImageUrl': userImage,
+                                                  'commentBody': _commentController.text,
+                                                  'time': Timestamp.now(),
+                                                }
+                                              ]),
+                                            });
+                                            await Fluttertoast.showToast(
+                                              msg: "Ваш комментарий был отправлен",
+                                              toastLength: Toast.LENGTH_LONG,
+                                              backgroundColor: MyColors.white,
+                                              fontSize: 18,
+                                            );
+                                            _commentController.clear();
+                                          }
+                                          setState(() {
+                                            showComment = true;
+                                          });
+                                        },
+                                        color: MyColors.white,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                        child: Column(
+                                          children: [
+                                            Padding(
                                               padding: const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    'Отправить',
-                                                    style: TextStyles.normalWhiteText,
-                                                  ),
-                                                ],
+                                              child: Text(
+                                                'Отправить',
+                                                style: TextStyles.boldGreenText18,
                                               ),
                                             ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 40,
+                                      ),
+                                      MaterialButton(
+                                        minWidth: 150,
+                                        onPressed: () {
+                                          setState(() {
+                                            _isCommenting = !_isCommenting;
+                                            showComment = false;
+                                          });
+                                        },
+                                        color: MyColors.white,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'Свернуть',
+                                                style: TextStyles.boldRedText18,
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        MaterialButton(
-                                          minWidth: 160,
-                                          onPressed: () {},
-                                          color: MyColors.emeraldGreen,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  'Удалить',
-                                                  style: TextStyles.normalWhiteText,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               )
@@ -572,19 +587,71 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        _isCommenting = !_isCommenting;
+                                      });
+                                    },
                                     icon: Icon(Icons.add_comment, color: MyColors.emeraldGreen, size: 40),
                                   ),
                                   SizedBox(
                                     width: 10,
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        showComment = true;
+                                      });
+                                    },
                                     icon: Icon(Icons.arrow_drop_down_circle, color: MyColors.emeraldGreen, size: 40),
                                   ),
                                 ],
                               ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      showComment == false
+                          ? Container()
+                          : Padding(
+                              padding: EdgeInsets.all(8),
+                              child: FutureBuilder<DocumentSnapshot>(
+                                future: FirebaseFirestore.instance.collection('Jobs').doc(widget.jobID).get(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: MyColors.emeraldGreen,
+                                      ),
+                                    );
+                                  } else if (snapshot.data == null) {
+                                    Center(
+                                      child: Text('Нет комментариев к этой вакансии'),
+                                    );
+                                  }
+                                  return ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return CommentWidget(
+                                        commentId: snapshot.data!['jobComments'][index]['commentId'],
+                                        commenterId: snapshot.data!['jobComments'][index]['userId'],
+                                        commenterName: snapshot.data!['jobComments'][index]['name'],
+                                        commentBody: snapshot.data!['jobComments'][index]['commentBody'],
+                                        commenterImageUrl: snapshot.data!['jobComments'][index]['userImageUrl'],
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return Divider(
+                                        thickness: 1,
+                                        color: MyColors.lightGreen,
+                                      );
+                                    },
+                                    itemCount: snapshot.data!['jobComments'].length,
+                                  );
+                                },
+                              ),
+                            ),
                     ],
                   ),
                 ),

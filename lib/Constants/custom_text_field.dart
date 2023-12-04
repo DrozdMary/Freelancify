@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.obscureText,
     this.focusNode,
+    this.defaultMaxLime,
   });
 
   final String? Function(String?) validator;
@@ -29,25 +30,23 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool? obscureText;
   final FocusNode? focusNode;
+  final int? defaultMaxLime;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: defaultMaxLime,
       validator: validator,
       textInputAction: TextInputAction.next,
       //Это устанавливает действие, которое происходит при нажатии на кнопку "Next" на клавиатуре.
-      //В данном случае, при нажатии на "Next" фокус переходит к следующему полю.
       onEditingComplete: onEditingComplete,
-
       keyboardType: keyboardType,
       focusNode: focusNode,
       //Устанавливает тип клавиатуры, в данном случае, для ввода электронной почты.
       controller: controller,
-      //Привязывает TextEditingController _emailTextController к данному TextFormField, что позволяет управлять текстом в этом поле ввода.
       obscureText: obscureText ?? false,
       //это для пароля нужно
       style: _defaultTextStyle,
-      // Цвет текста
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(

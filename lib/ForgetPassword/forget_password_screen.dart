@@ -31,7 +31,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Login()));
         }catch(error)
     {
-      Fluttertoast.showToast(msg: error.toString());
+      Fluttertoast.showToast(msg: 'Произошла ошибка, попробуйте снова');
     }
 
   }

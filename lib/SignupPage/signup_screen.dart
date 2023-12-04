@@ -7,7 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ijob_clone_app/Constants/custom_text_field.dart';
 import 'package:ijob_clone_app/Constants/text_styles.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -347,10 +346,13 @@ class _SignUpState extends State<SignUp> {
                             return null;
                           }
                         },
+
                         onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneNumberFocusNode),
                         keyboardType: TextInputType.visiblePassword,
                         controller: _passTextController,
+                        defaultMaxLime: 1,
                         focusNode: _passFocusNode,
+
                         suffixIcon: GestureDetector(
                           //создает иконку в конце текстового поля, которая реагирует на tap
                           onTap: ()
@@ -391,10 +393,11 @@ class _SignUpState extends State<SignUp> {
                             return null;
                           }
                         },
+
                         focusNode: _phoneNumberFocusNode,
                         onEditingComplete: () => FocusScope.of(context).requestFocus(_positionCPFocusNode),
                         keyboardType: TextInputType.text,
-                        controller: _phoneNumberController,
+                        controller: _locationController,
                         hintText: "Адрес",
                         hintStyle: TextStyles.normText,
                         style: TextStyles.normText,
@@ -415,7 +418,7 @@ class _SignUpState extends State<SignUp> {
                         focusNode: _positionCPFocusNode,
                         onEditingComplete: () => FocusScope.of(context).requestFocus(_positionCPFocusNode),
                         keyboardType: TextInputType.phone,
-                        controller: _locationController,
+                        controller: _phoneNumberController,
                         hintText: "Номер телефона",
                         hintStyle: TextStyles.normText,
                         style: TextStyles.normText,

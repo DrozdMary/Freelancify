@@ -56,7 +56,7 @@ class _JobWidgetState extends State<JobWidget> {
                         await Fluttertoast.showToast(
                           msg: 'Вакансия была удалена',
                           toastLength: Toast.LENGTH_LONG,
-                          backgroundColor: Colors.black,
+                          backgroundColor: Colors.white,
                           fontSize: 18,
                         );
                         Navigator.canPop(context) ? Navigator.pop(context) : null;

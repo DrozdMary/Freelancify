@@ -35,8 +35,17 @@ class _JobScreenState extends State<JobScreen> {
           setState(() {
             jobCategoryFilter = null;
           });
+
           Navigator.canPop(context) ? Navigator.pop(context) : null;
         });
+  }
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Persistent persistentObject= Persistent();
+    persistentObject.getMyData();
   }
 
   @override
@@ -80,7 +89,10 @@ class _JobScreenState extends State<JobScreen> {
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: MyColors.white,
+
+              ),
             );
           } else if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.data?.docs.isEmpty == false)
