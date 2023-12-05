@@ -7,13 +7,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ijob_clone_app/Constants/custom_text_field.dart';
+import 'package:ijob_clone_app/Widgets/custom_text_field.dart';
 import 'package:ijob_clone_app/Constants/text_styles.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../Constants/colors.dart';
-import '../Constants/show_dialog.dart';
+import '../Widgets/show_dialog.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -28,25 +28,25 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _passTextController = TextEditingController(text: '');
   final TextEditingController _phoneNumberController = TextEditingController(text: '');
   final TextEditingController _locationController = TextEditingController(text: '');
+  final TextEditingController _informationController = TextEditingController(text: '');
 
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passFocusNode = FocusNode();
   final FocusNode _phoneNumberFocusNode = FocusNode();
   final FocusNode _positionCPFocusNode = FocusNode();
+  final FocusNode _informationFocusNode = FocusNode();
 
   // управления видимостью текста в виджете TextField. когда true - текс скрыт звездочкой
   bool _obscureText = true;
 
   final _signUpFormKey = GlobalKey<FormState>();
 
-  //?  обозначает, что переменная может иметь значение null. Если переменной не присвоено значения, она автоматически имеет значение null
   File? imageFile;
 
-  // отслеживаниt состояния загрузки или выполнения какой-то операции в приложении
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool _isLoading = false;
 
-  //Объявление переменной imageUrl, которая может содержать строку или значение null.
   String? imageUrl;
 
   //Метод dispose() используется для освобождения ресурсов и очистки памяти после завершения использования виджета
@@ -57,10 +57,12 @@ class _SignUpState extends State<SignUp> {
     _emailTextController.dispose();
     _passTextController.dispose();
     _phoneNumberController.dispose();
+    _informationController.dispose();
     _emailFocusNode.dispose();
     _passFocusNode.dispose();
     _positionCPFocusNode.dispose();
     _phoneNumberFocusNode.dispose();
+    _informationFocusNode.dispose();
 
     super.dispose();
   }
@@ -69,12 +71,9 @@ class _SignUpState extends State<SignUp> {
   State<SignUp> createState() => _SignUpState();
 
   void _ShowImageDialog() {
-    //Это функция, которая создает и отображает диалоговое окно для выбора источника изображения.
     showDialog(
-        //Этот метод отображает диалоговое окно
         context: context,
         builder: (context)
-            //Это функция-конструктор, которая создает виджеты для диалогового окна.
             {
           return AlertDialog(
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -82,13 +81,10 @@ class _SignUpState extends State<SignUp> {
             title: Text('Источник изображения:', style: TextStyles.boldText),
 
             content: Column(
-              //Определяет содержимое диалогового окна в виде вертикальной колонки
               mainAxisSize: MainAxisSize.min,
-              //Устанавливает минимальный размер для основной оси (вертикальной в данном случае)
               children: [
                 InkWell(
                   onTap: () {
-                    //Определяет действие, которое будет выполняться при касании элемента InkWell, вызывается функция для выбора изображения из камеры.
                     _getFromCamera();
                   },
                   child: Row(
@@ -109,7 +105,6 @@ class _SignUpState extends State<SignUp> {
                 ),
                 InkWell(
                   onTap: () {
-                    //Определяет действие, которое будет выполняться при касании элемента InkWell, вызывается функция для выбора изображения из камеры.
                     _getFromGallery();
                   },
                   child: Row(
@@ -142,7 +137,7 @@ class _SignUpState extends State<SignUp> {
     _cropImage(pickedFile!.path);
     // ignore: use_build_context_synchronously
     Navigator.pop(context);
-    //Этот вызов закрывает текущий экран или диалоговое окно, в котором был вызван.
+
   }
 
   void _getFromGallery() async {
@@ -218,6 +213,7 @@ class _SignUpState extends State<SignUp> {
         FirebaseFirestore.instance.collection('users').doc(_uid).set({
           'id': _uid,
           'name': _fullNameController.text,
+          'information':_informationController.text,
           'email': _emailTextController.text,
           'userImage': imageUrl,
           'phoneNumber': _phoneNumberController.text,
@@ -301,10 +297,31 @@ class _SignUpState extends State<SignUp> {
                             return null;
                           }
                         },
-                        onEditingComplete: () => FocusScope.of(context).requestFocus(_emailFocusNode),
+                        onEditingComplete: () => FocusScope.of(context).requestFocus(_informationFocusNode),
                         keyboardType: TextInputType.name,
                         controller: _fullNameController,
                         hintText: "ФИО/Название Компании",
+                        hintStyle: TextStyles.normText,
+                        style: TextStyles.normText,
+                      ),
+// INFO
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomTextField(
+                        validator: (value) {
+                          if (value!.isEmpty) //валидация мйл
+                              {
+                            return 'Неверный формат';
+                          } else {
+                            return null;
+                          }
+                        },
+                        onEditingComplete: () => FocusScope.of(context).requestFocus(_emailFocusNode),
+                        keyboardType: TextInputType.name,
+                        controller: _informationController,
+                        hintText: "Расскажите намного о себе/компнии...",
+                        defaultMaxLime: 4,
                         hintStyle: TextStyles.normText,
                         style: TextStyles.normText,
                       ),
@@ -312,7 +329,6 @@ class _SignUpState extends State<SignUp> {
                       const SizedBox(
                         height: 10,
                       ),
-
 //Email
                       CustomTextField(
                         validator: (value) {

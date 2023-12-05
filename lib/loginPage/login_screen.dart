@@ -8,8 +8,8 @@ import 'package:ijob_clone_app/Constants/text_styles.dart';
 import 'package:ijob_clone_app/ForgetPassword/forget_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ijob_clone_app/SignupPage/signup_screen.dart';
-import '../Constants/show_dialog.dart';
-import '../Constants/custom_text_field.dart';
+import '../Widgets/show_dialog.dart';
+import '../Widgets/custom_text_field.dart';
 
 class Login extends StatefulWidget {
   @override

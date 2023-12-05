@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ijob_clone_app/Constants/botton_nav_bar.dart';
+import 'package:ijob_clone_app/Widgets/botton_nav_bar.dart';
 import 'package:ijob_clone_app/Constants/colors.dart';
-import 'package:ijob_clone_app/Constants/job_widget.dart';
+import 'package:ijob_clone_app/Widgets/job_widget.dart';
 
-import '../Constants/costom_alert_dialog_categories.dart';
+import '../Widgets/costom_alert_dialog_categories.dart';
 import '../Constants/text_styles.dart';
 import '../Constants/persistent.dart';
 import '../Search/search_job_screen.dart';
@@ -104,23 +104,26 @@ class _JobScreenState extends State<JobScreen> {
           } else if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.data?.docs.isEmpty == false)
             {
-              return ListView.builder(
-                itemCount: snapshot.data?.docs.length,
-                itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: ListView.builder(
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: (BuildContext context, int index) {
 
-                  return JobWidget(
-                    jobId: snapshot.data?.docs[index]['jobId'],
-                    uploadedBy: snapshot.data?.docs[index]['uploadedBy'],
-                    email: snapshot.data?.docs[index]['email'],
-                    jobTitle: snapshot.data?.docs[index]['jobTitle'],
-                    jobDescription: snapshot.data?.docs[index]['jobDescription'],
-                    jobRequirements: snapshot.data?.docs[index]['jobRequirements'],
-                    name: snapshot.data?.docs[index]['name'],
-                    recruitment: snapshot.data?.docs[index]['recruitment'],
-                    userImage: snapshot.data?.docs[index]['userImage'],
-                    location: snapshot.data?.docs[index]['location'],
-                  );
-                },
+                    return JobWidget(
+                      jobId: snapshot.data?.docs[index]['jobId'],
+                      uploadedBy: snapshot.data?.docs[index]['uploadedBy'],
+                      email: snapshot.data?.docs[index]['email'],
+                      jobTitle: snapshot.data?.docs[index]['jobTitle'],
+                      jobDescription: snapshot.data?.docs[index]['jobDescription'],
+                      jobRequirements: snapshot.data?.docs[index]['jobRequirements'],
+                      name: snapshot.data?.docs[index]['name'],
+                      recruitment: snapshot.data?.docs[index]['recruitment'],
+                      userImage: snapshot.data?.docs[index]['userImage'],
+                      location: snapshot.data?.docs[index]['location'],
+                    );
+                  },
+                ),
               );
             }
             else {

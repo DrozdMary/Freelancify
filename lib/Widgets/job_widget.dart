@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ijob_clone_app/Constants/colors.dart';
-import 'package:ijob_clone_app/Constants/show_dialog.dart';
+import 'package:ijob_clone_app/Widgets/show_dialog.dart';
 import 'package:ijob_clone_app/Constants/text_styles.dart';
 
 import '../Jobs/job_details_screen.dart';
@@ -90,7 +90,7 @@ class _JobWidgetState extends State<JobWidget> {
     return Card(
       color: Colors.white,
       elevation: 8,
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: ListTile(
         onTap: () {
           Navigator.pushReplacement(

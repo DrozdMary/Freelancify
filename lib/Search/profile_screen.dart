@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../Constants/botton_nav_bar.dart';
+import '../Widgets/botton_nav_bar.dart';
 import '../Constants/colors.dart';
-import '../Constants/divider_widget.dart';
-import '../Constants/show_dialog.dart';
+import '../Widgets/divider_widget.dart';
+import '../Widgets/show_dialog.dart';
 import '../Constants/text_styles.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -27,6 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String email = '';
   String location = '';
   String phoneNumber = '';
+  String information = '';
   String imageUrl = '';
   String joinedAt = '';
   bool _isSameUser = false;
@@ -44,6 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           location = userDoc.get('location');
           phoneNumber = userDoc.get('phoneNumber');
           imageUrl = userDoc.get('userImage');
+          information=userDoc.get('information');
           Timestamp joinedAtTimestamp = userDoc.get('createdAt');
           var joinedDate = joinedAtTimestamp.toDate();
 
@@ -147,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             )
           : SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.only(top: 80, left: 5, right: 5),
+                padding: EdgeInsets.only(top: 15,),
                 child: Stack(
                   children: [
                     Card(
@@ -174,6 +176,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                             ),
+                            SizedBox(height: 10,),
+                            Text(
+                              information == null ? '' : information!,
+                              textAlign: TextAlign.center,
+                              style: TextStyles.normText,
+                            ),
+
                             DividerWidget(),
                             Padding(
                               padding: const EdgeInsets.all(5.0),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ijob_clone_app/Constants/colors.dart';
 import 'package:ijob_clone_app/Constants/text_styles.dart';
 
-import 'persistent.dart';
+import '../Constants/persistent.dart';
 
 class DialogCotegories {
   static void showAlert({

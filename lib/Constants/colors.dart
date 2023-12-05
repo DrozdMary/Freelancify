@@ -11,6 +11,7 @@ class MyColors {
   static Color q11 =  Color(0xffFFDDBD);
 
 
+  static Color darkBlue1 = const Color(0xFFC3D9E3);
   static Color q2 =  Colors.blueAccent;
   static Color q22 =   Color(0xffBDD7FF);
   static Color q3 =  Colors.pink;

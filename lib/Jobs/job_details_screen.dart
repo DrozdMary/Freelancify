@@ -2,17 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ijob_clone_app/Constants/comments_widget.dart';
+import 'package:ijob_clone_app/Widgets/comments_widget.dart';
 import 'package:ijob_clone_app/Constants/global_variables.dart';
-import 'package:ijob_clone_app/Constants/show_dialog.dart';
+import 'package:ijob_clone_app/Widgets/show_dialog.dart';
 import 'package:ijob_clone_app/Jobs/jobs_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:uuid/uuid.dart';
 
 import '../Constants/colors.dart';
-import '../Constants/custom_text_field.dart';
-import '../Constants/divider_widget.dart';
+import '../Widgets/custom_text_field.dart';
+import '../Widgets/divider_widget.dart';
 import '../Constants/text_styles.dart';
 
 class JobDetailsScreen extends StatefulWidget {

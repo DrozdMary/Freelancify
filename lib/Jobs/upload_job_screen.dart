@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ijob_clone_app/Constants/show_dialog.dart';
+import 'package:ijob_clone_app/Widgets/show_dialog.dart';
 import 'package:ijob_clone_app/Constants/text_styles.dart';
 import 'package:ijob_clone_app/Constants/persistent.dart';
 import 'package:uuid/uuid.dart';
-import '../Constants/botton_nav_bar.dart';
+import '../Widgets/botton_nav_bar.dart';
 import '../Constants/colors.dart';
-import '../Constants/costom_alert_dialog_categories.dart';
+import '../Widgets/costom_alert_dialog_categories.dart';
 import '../Constants/global_variables.dart';
 
 class UploadJobNow extends StatefulWidget {

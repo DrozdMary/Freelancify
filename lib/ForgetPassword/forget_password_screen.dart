@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ijob_clone_app/Constants/custom_text_field.dart';
+import 'package:ijob_clone_app/Widgets/custom_text_field.dart';
 import 'package:ijob_clone_app/loginPage/login_screen.dart';
 
 import '../Constants/colors.dart';
-import '../Constants/show_dialog.dart';
+import '../Widgets/show_dialog.dart';
 import '../Constants/text_styles.dart';
 
 class ForgetPassword extends StatefulWidget {
