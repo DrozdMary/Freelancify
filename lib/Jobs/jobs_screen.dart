@@ -63,7 +63,7 @@ class _JobScreenState extends State<JobScreen> {
         leading: IconButton(
           icon: Icon(
             Icons.filter_list_rounded,
-            color: MyColors.darkBlue,
+            color: MyColors.white,
           ),
           onPressed: () {
             _showCategoriesDialog(size: size);
@@ -72,10 +72,17 @@ class _JobScreenState extends State<JobScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => SearchJobScreen()));
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => SearchJobScreen(),
+              transitionDuration: Duration(milliseconds: 20),
+              transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
+              ));
+
             },
             icon: Icon(Icons.search_outlined),
-            color: MyColors.darkBlue,
+            color: MyColors.white,
           ),
         ],
       ),
